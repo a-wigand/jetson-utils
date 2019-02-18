@@ -78,7 +78,7 @@ public:
 	inline uint32_t GetSize() const	   { return mSize; }
 	
 	// Default resolution, unless otherwise specified during Create()
-	static const uint32_t DefaultWidth  = 1280;
+	static const uint32_t DefaultWidth  = 2560;
 	static const uint32_t DefaultHeight = 720;
 	
 private:
