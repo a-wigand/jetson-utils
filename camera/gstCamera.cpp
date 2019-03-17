@@ -354,6 +354,22 @@ bool gstCamera::buildLaunchStr( gstCameraSrc src )
 		
 		ss << "video/x-raw ! appsink name=mysink";
 	}
+	else if( zedCamera() )
+        {
+		ss << "v4l2src device=/dev/zed-camera ! ";
+                ss << "video/x-raw, width=(int)" << mWidth << ", height=(int)" << mHeight << ", ";
+
+        #if NV_TENSORRT_MAJOR >= 5
+                ss << "format=YUY2 ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
+        #else
+                ss << "format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
+        #endif
+
+                ss << "appsink name=mysink";
+
+                mSource = GST_SOURCE_V4L2;   // copied from else case
+        }
+
 	else
 	{
 		ss << "v4l2src device=/dev/video" << mV4L2Device << " ! ";

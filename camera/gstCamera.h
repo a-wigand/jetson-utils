@@ -123,6 +123,7 @@ private:
 	int    mV4L2Device;	// -1 for onboard, >=0 for V4L2 device
 	
 	inline bool onboardCamera() const		{ return (mV4L2Device < 0); }
+	inline bool zedCamera() const			{ return (mV4L2Device == 42); }
 };
 
 #endif
