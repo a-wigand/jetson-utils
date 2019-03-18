@@ -291,6 +291,9 @@ void gstCamera::checkBuffer()
 		release_return;
 	
 	mWidth  = width;
+//	if( zedCamera() )
+//		mWidth = width / 2;
+
 	mHeight = height;
 	mDepth  = (gstSize * 8) / (width * height);
 	mSize   = gstSize;
@@ -365,6 +368,8 @@ bool gstCamera::buildLaunchStr( gstCameraSrc src )
                 ss << "format=RGB ! videoconvert ! video/x-raw, format=RGB ! videoconvert !";
         #endif
 
+		ss << " videocrop top=0 left=0 right=1280 bottom=0 !"; // crop right image
+
                 ss << "appsink name=mysink";
 
                 mSource = GST_SOURCE_V4L2;   // copied from else case
@@ -410,6 +415,9 @@ gstCamera* gstCamera::Create( uint32_t width, uint32_t height, int v4l2_device )
 	
 	cam->mV4L2Device = v4l2_device;
 	cam->mWidth      = width;
+//	if ( v4l2_device == 42 )
+//		cam->mWidth = width / 2;
+
 	cam->mHeight     = height;
 	cam->mDepth      = cam->onboardCamera() ? 12 : 24;	// NV12 or RGB
 	cam->mSize       = (width * height * cam->mDepth) / 8;
